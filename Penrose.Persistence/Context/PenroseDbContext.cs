@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Penrose.Core.Common;
 using Penrose.Core.Exceptions;
 using Penrose.Core.Interfaces;
 
@@ -12,25 +13,35 @@ namespace Penrose.Persistence.Context
 {
     public class PenroseDbContext : DbContext, IPenroseDbContext
     {
-        public PenroseDbContext(DbContextOptions<PenroseDbContext> options): base(options)
-        {}
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public PenroseDbContext(DbContextOptions<PenroseDbContext> options) : base(options)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public DbSet<T> GetDbSet<T>() where T : AuditableEntity
+        {
+            return base.Set<T>();
+        }
+
+        public EntityEntry GetEntityEntry<T>(T entity)
+        {
+            return base.Entry(entity);
+        }
+
+        public EntityEntry AttachEntity<T>(T entity)
+        {
+            return base.Attach(entity);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
             ChangeTracker.DetectChanges();
-            
-            ChangeTracker.Entries<IEntity>()
+
+            ChangeTracker.Entries<AuditableEntity>()
                 .ToList()
                 .ForEach(entity =>
                 {
-                    PropertyEntry<IEntity,Guid> versionProperty = entity.Property(x => x.Version);
-                    PropertyEntry<IEntity, bool> isActiveProperty = entity.Property(x => x.IsActive);
+                    var versionProperty = entity.Property(x => x.Version);
+                    var isActiveProperty = entity.Property(x => x.IsActive);
                     if (versionProperty.OriginalValue != versionProperty.CurrentValue)
                         throw new ConcurrencyException();
 
@@ -39,11 +50,17 @@ namespace Penrose.Persistence.Context
                         entity.State = EntityState.Modified;
                         isActiveProperty.CurrentValue = false;
                     }
-                    
+
                     versionProperty.CurrentValue = Guid.NewGuid();
                 });
-            
+
             return base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

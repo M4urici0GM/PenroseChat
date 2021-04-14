@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Penrose.Core.Interfaces;
+using Penrose.Core.Common;
 
 namespace Penrose.Core.Entities
 {
-    public class User : IEntity
+    public class User : AuditableEntity
     {
         public Guid Id { get; set; }
         public Guid Version { get; set; }

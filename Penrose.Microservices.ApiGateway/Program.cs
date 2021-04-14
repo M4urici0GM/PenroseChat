@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Penrose.Microservices.Websocket
+namespace Penrose.Microservices.ApiGateway
 {
     public class Program
     {

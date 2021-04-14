@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Penrose.Core.Entities;
 
 namespace Penrose.Persistence.Configurations
 {
-    public class ChatConfiguration : IEntityTypeConfiguration<Chat>
+    public class ChatConfiguration : EntityConfiguration<Chat>
     {
-        public void Configure(EntityTypeBuilder<Chat> builder)
+        protected override void InternalConfiguration(EntityTypeBuilder<Chat> builder)
         {
             builder.HasMany(x => x.Messages)
                 .WithOne(x => x.Chat)

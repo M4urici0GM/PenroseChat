@@ -4,9 +4,9 @@ using Penrose.Core.Entities;
 
 namespace Penrose.Persistence.Configurations
 {
-    public class ChatMessageConfiguration : IEntityTypeConfiguration<ChatMessage>
+    public class ChatMessageConfiguration : EntityConfiguration<ChatMessage>
     {
-        public void Configure(EntityTypeBuilder<ChatMessage> builder)
+        protected override void InternalConfiguration(EntityTypeBuilder<ChatMessage> builder)
         {
             builder.Property(x => x.Content).IsRequired();
             builder.Property(x => x.ContentType).IsRequired();

@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Penrose.Core.Entities;
 
 namespace Penrose.Persistence.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : EntityConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        protected override void InternalConfiguration(EntityTypeBuilder<User> builder)
         {
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.LastName).IsRequired();

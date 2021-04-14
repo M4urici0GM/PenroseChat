@@ -5,11 +5,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+      <ProjectReference Include="..\Penrose.Application\Penrose.Application.csproj" />
+      <ProjectReference Include="..\Penrose.Core\Penrose.Core.csproj" />
+      <ProjectReference Include="..\Penrose.Persistence\Penrose.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
