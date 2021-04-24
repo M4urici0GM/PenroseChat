@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Penrose.Application.Middlewares;
 
 namespace Penrose.Application.Extensions
 {
@@ -17,8 +18,9 @@ namespace Penrose.Application.Extensions
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
+            services.ConfigureAutoMapper();
             services.AddApplicationRepositories();
-
+            services.AddApplicationServices();
             return services;
         }
 
@@ -37,6 +39,10 @@ namespace Penrose.Application.Extensions
                 options.AllowAnyOrigin();
                 options.AllowAnyMethod();
             });
+
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseRouting();
+            app.UseEndpoints(x => x.MapControllers());
 
             return app;
         }

@@ -10,6 +10,7 @@ namespace Penrose.Persistence.Configurations
         {
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.LastName).IsRequired();
+            builder.Property(x => x.Nickname).IsRequired();
             builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.Hash).IsRequired();
             builder.Property(x => x.LastLogin).IsRequired();

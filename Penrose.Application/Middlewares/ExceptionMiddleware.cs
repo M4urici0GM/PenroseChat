@@ -30,6 +30,10 @@ namespace Penrose.Application.Middlewares
             {
                 await Response(httpContext, HttpStatusCode.Conflict, ex);
             }
+            catch (EntityValidationException ex)
+            {
+                await Response(httpContext, HttpStatusCode.BadRequest, ex);
+            }
             catch (Exception ex)
             {
                 await Response(httpContext, HttpStatusCode.InternalServerError, ex);

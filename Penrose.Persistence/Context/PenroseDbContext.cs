@@ -13,10 +13,11 @@ namespace Penrose.Persistence.Context
 {
     public class PenroseDbContext : DbContext, IPenroseDbContext
     {
-        public PenroseDbContext(DbContextOptions<PenroseDbContext> options) : base(options)
+        public PenroseDbContext(DbContextOptions options) : base(options)
         {
+            
         }
-
+        
         public DbSet<T> GetDbSet<T>() where T : AuditableEntity
         {
             return base.Set<T>();
@@ -59,8 +60,8 @@ namespace Penrose.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

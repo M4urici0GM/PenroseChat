@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Penrose.Persistence.Context;
 
 namespace Penrose.Persistence.Migrations
 {
     [DbContext(typeof(PenroseDbContext))]
-    partial class PenroseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210424190622_FixDatetimeGeneration")]
+    partial class FixDatetimeGeneration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
