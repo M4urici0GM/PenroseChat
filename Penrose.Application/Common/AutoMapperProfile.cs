@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Penrose.Application.Contexts.Commands;
 using Penrose.Application.DataTransferObjects;
-using Penrose.Application.DataTransferObjects.Requests;
 using Penrose.Core.Entities;
 
 namespace Penrose.Application.Common
@@ -16,8 +16,8 @@ namespace Penrose.Application.Common
         {
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
-            CreateMap<CreateUserDto, User>();
-            CreateMap<CreateUserDto, UserDto>();
+            CreateMap<CreateUserRequest, User>();
+            CreateMap<CreateUserRequest, UserDto>();
         }
     }
 }

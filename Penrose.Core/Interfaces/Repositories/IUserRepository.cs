@@ -9,7 +9,7 @@ namespace Penrose.Core.Interfaces.Repositories
 {
     public interface IUserRepository
     {
-        Task<User> Find(Guid userId);
+        Task<User> FindAsync(Guid userId, CancellationToken cancellationToken = new CancellationToken());
         Task<User> SaveAsync(User user);
         Task<User> FindByNickname(string nickname);
         Task<bool> NicknameExists(string nickname);

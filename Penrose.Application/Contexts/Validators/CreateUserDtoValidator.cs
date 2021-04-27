@@ -1,12 +1,10 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Penrose.Application.DataTransferObjects.Requests;
+using Penrose.Application.Contexts.Commands;
 using Penrose.Core.Structs;
 
-namespace Penrose.Application.DataTransferObjects.Validators
+namespace Penrose.Application.Contexts.Validators
 {
-    public class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
+    public class CreateUserDtoValidator : AbstractValidator<CreateUserRequest>
     {
         public CreateUserDtoValidator()
         {

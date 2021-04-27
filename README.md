@@ -50,8 +50,8 @@ This project started as a way to show how well can i grab a simple application, 
 - [ ] User Endpoints
   - [x] Create
   - [ ] Update
-  - [ ] Get all users
-  - [ ] Get one user
+  - [x] Get all users
+  - [x] Get one user
 - [ ] Message Endpoints
   - [ ] Get my chats
   - [ ] Get chat messages
@@ -59,9 +59,13 @@ This project started as a way to show how well can i grab a simple application, 
   - [ ] Create new group chat
   - [ ] Add Participant to chat
   - [ ] Remove Participant from chat
+- [ ] Websocket Connection Microservice
+- [ ] User Notification
+- [ ] Message Received
+- [ ] Message Seen
 - [ ] User 2F Authentication
 - [ ] User OAuth authentication
-- [ ] User's Avatar and
+- [ ] User's Avatar
 
 ... And more. Maybe you can give a little help for ideas :)
 

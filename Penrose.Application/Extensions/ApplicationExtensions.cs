@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Reflection;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -18,6 +20,7 @@ namespace Penrose.Application.Extensions
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.ConfigureAutoMapper();
             services.AddApplicationRepositories();
             services.AddApplicationServices();
@@ -43,7 +46,6 @@ namespace Penrose.Application.Extensions
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseRouting();
             app.UseEndpoints(x => x.MapControllers());
-
             return app;
         }
     }

@@ -8,7 +8,6 @@ namespace Penrose.Application.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IHashingService, HashingService>();
         }
     }

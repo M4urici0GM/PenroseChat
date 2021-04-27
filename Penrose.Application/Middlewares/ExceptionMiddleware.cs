@@ -44,7 +44,7 @@ namespace Penrose.Application.Middlewares
             object response = null)
         {
             var requestId = context.GetRequestId();
-            var responseContent = JsonConvert.SerializeObject(new ApiResponse
+            var responseContent = JsonConvert.SerializeObject(new ApiResponse<object>
             {
                 Message = exception.Message,
                 Status = statusCode,

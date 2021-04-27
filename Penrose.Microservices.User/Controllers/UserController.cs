@@ -1,49 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Penrose.Application.Common;
+using Penrose.Application.Contexts.Commands;
+using Penrose.Application.Contexts.Queries;
 using Penrose.Application.DataTransferObjects;
-using Penrose.Application.DataTransferObjects.Requests;
-using Penrose.Application.Interfaces;
 using Penrose.Core.Common;
 
 namespace Penrose.Microservices.User.Controllers
 {
     [ApiController, Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : BasePenroseController
     {
-        private readonly IUserService _userService;
-        
-        public UserController(IUserService userService)
+        private readonly IMediator _mediator;
+
+        public UserController(IMediator mediator)
         {
-            _userService = userService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll([FromQuery] PagedRequest pagedRequest)
+        public async Task<IActionResult> FindAll([FromQuery] FindAllUsersRequest pagedRequest)
         {
-            PagedResult<UserDto> users = await _userService.FindAllAsync(pagedRequest);
+            PagedResult<UserDto> users = await _mediator.Send(pagedRequest);
             return Ok(users);
         }
 
         [HttpGet, Route("{id:guid}")]
         public async Task<IActionResult> Find(Guid id)
         {
-            UserDto userDto = await _userService.FindById(id);
-            return Ok(new
-            {
-                user = userDto,
-            });
+            Core.Entities.User user = await _mediator.Send(new FindUserRequest() {Id = id});
+            
+            return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserDto userDto)
+        public async Task<IActionResult> Create([FromBody]CreateUserRequest userRequestDto)
         {
-            UserDto createdUser = await _userService.Create(userDto);
-            return Ok(new
-            {
-                user = createdUser,
-            });
+            UserDto createdUser = await _mediator.Send(userRequestDto);
+            return Ok(createdUser);
         }
     }
 }

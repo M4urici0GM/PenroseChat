@@ -23,11 +23,11 @@ namespace Penrose.Application.Repositories.Users
             _dataStrategy = dataStrategy;
         }
         
-        public Task<User> Find(Guid userId)
+        public async Task<User> FindAsync(Guid userId, CancellationToken cancellationToken = new CancellationToken())
         {
-            return _dataStrategy.GetDbSet()
-                .FindAsync(userId)
-                .AsTask();
+            return await _dataStrategy.GetDbSet()
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<User> SaveAsync(User user)
