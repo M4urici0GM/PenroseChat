@@ -22,7 +22,7 @@ namespace Penrose.Application.Extensions
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.ConfigureAutoMapper();
-            services.AddApplicationRepositories();
+            services.AddApplicationDataStrategies();
             services.AddApplicationServices();
             return services;
         }

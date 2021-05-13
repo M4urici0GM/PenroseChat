@@ -8,7 +8,7 @@ using Penrose.Application.Contexts.Queries;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Core.Entities;
 using Penrose.Core.Exceptions;
-using Penrose.Core.Interfaces.Repositories;
+using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Contexts.Commands
 {
@@ -19,17 +19,17 @@ namespace Penrose.Application.Contexts.Commands
         
         public class UpdateUserRequestHandler : IRequestHandler<UpdateUserRequest, UserDto>
         {
-            private readonly IUserRepository _userRepository;
+            private readonly IUserDataStragegy _userDataStragegy;
             private readonly IMapper _mapper;
             private readonly IMediator _mediator;
             
             public UpdateUserRequestHandler(
-                IUserRepository userRepository,
+                IUserDataStragegy userDataStragegy,
                 IMapper mapper,
                 IMediator mediator)
             {
                 _mapper = mapper;
-                _userRepository = userRepository;
+                _userDataStragegy = userDataStragegy;
                 _mediator = mediator;
             }
 
@@ -41,7 +41,7 @@ namespace Penrose.Application.Contexts.Commands
                 currentUser.Name = request.Name;
                 currentUser.LastName = request.LastName;
 
-                await _userRepository.SaveAsync(currentUser);
+                await _userDataStragegy.SaveAsync(currentUser);
 
                 return _mapper.Map<UserDto>(currentUser);
             }

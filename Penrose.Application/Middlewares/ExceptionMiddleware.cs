@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Penrose.Application.Extensions;
 using Penrose.Core.Exceptions;
@@ -13,10 +15,12 @@ namespace Penrose.Application.Middlewares
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _requestDelegate;
+        private readonly IHostEnvironment _hostEnvironment;
 
-        public ExceptionMiddleware(RequestDelegate requestDelegate)
+        public ExceptionMiddleware(RequestDelegate requestDelegate, IHostEnvironment hostEnvironment)
         {
             _requestDelegate = requestDelegate;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -32,7 +36,15 @@ namespace Penrose.Application.Middlewares
             }
             catch (EntityValidationException ex)
             {
-                await Response(httpContext, HttpStatusCode.BadRequest, ex);
+                await Response(
+                    httpContext,
+                    HttpStatusCode.BadRequest,
+                    ex,
+                    ex.ValidationErrors.Select(x => new
+                    {
+                        name = x.PropertyName,
+                        message = x.ErrorMessage,
+                    }));
             }
             catch (Exception ex)
             {
@@ -43,18 +55,19 @@ namespace Penrose.Application.Middlewares
         private static Task Response(HttpContext context, HttpStatusCode statusCode, Exception exception,
             object response = null)
         {
-            var requestId = context.GetRequestId();
-            var responseContent = JsonConvert.SerializeObject(new ApiResponse<object>
+            string message = exception.Message;
+            Guid requestId = context.GetRequestId();
+            ApiResponse<object> apiResponse = new ApiResponse<object>
             {
                 Message = exception.Message,
                 Status = statusCode,
                 RequestId = requestId,
                 Data = response
-            });
+            };
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) statusCode;
-            return context.Response.WriteAsync(responseContent);
+            return context.Response.WriteAsync(apiResponse.ToJson());
         }
     }
 }

@@ -4,55 +4,53 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Penrose.Application.Extensions;
-using Penrose.Application.Interfaces;
+using Penrose.Application.Strategies;
 using Penrose.Core.Common;
 using Penrose.Core.Entities;
 using Penrose.Core.Interfaces;
-using Penrose.Core.Interfaces.Repositories;
+using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Repositories.Users
 {
-    public class UserRepository : IUserRepository
+    public class UserDataStrategy : DataStrategy<User>, IUserDataStragegy
     {
-        private readonly IDataStrategy<User> _dataStrategy;
-
-        public UserRepository(IDataStrategy<User> dataStrategy)
+        private readonly DbSet<User> _userDb;
+        public UserDataStrategy(IPenroseDbContext dbContext) : base(dbContext)
         {
-            _dataStrategy = dataStrategy;
+            _userDb = dbContext.GetDbSet<User>();
         }
         
         public async Task<User> FindAsync(Guid userId, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _dataStrategy.GetDbSet()
+            return await _userDb
                 .Where(x => x.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<User> SaveAsync(User user)
         {
-            await _dataStrategy.GetDbSet().AddAsync(user);
-            await _dataStrategy.GetContext().SaveChangesAsync();
+            await _userDb.AddAsync(user);
+            await PenroseDbContext.SaveChangesAsync();
 
             return user;
         }
 
-        public Task<User> FindByNickname(string nickname)
+        public async Task<User> FindByNickname(string nickname, CancellationToken cancellationToken)
         {
-            return _dataStrategy.GetDbSet()
-                .FirstOrDefaultAsync(x => x.Nickname == nickname);
+            return await _userDb
+                .FirstOrDefaultAsync(x => x.Nickname == nickname, cancellationToken);
         }
 
-        public Task<bool> NicknameExists(string nickname)
+        public async Task<bool> NicknameExists(string nickname, CancellationToken cancellationToken)
         {
-            return _dataStrategy.GetDbSet()
-                .AnyAsync(x => x.Nickname == nickname);
+            return await _userDb
+                .AnyAsync(x => x.Nickname == nickname, cancellationToken);
         }
 
         public async Task<User> UpdateAsync(User user, CancellationToken cancellationToken = new())
         {
-            var penroseDbContext = _dataStrategy.GetContext();
+            IPenroseDbContext penroseDbContext = PenroseDbContext;
             if (penroseDbContext.GetEntityEntry(user).State == EntityState.Detached)
                 penroseDbContext.AttachEntity(user);
 
@@ -62,8 +60,7 @@ namespace Penrose.Application.Repositories.Users
 
         public async Task<PagedResult<User>> FindAllAsync(PagedRequest pagedRequest, CancellationToken cancellationToken = new CancellationToken())
         {
-            IQueryable<User> userQuery = _dataStrategy
-                .GetDbSet()
+            IQueryable<User> userQuery = _userDb
                 .AsQueryable()
                 .Where(x => x.IsActive);
 

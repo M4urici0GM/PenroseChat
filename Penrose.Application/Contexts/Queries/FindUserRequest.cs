@@ -6,7 +6,7 @@ using MediatR;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Core.Entities;
 using Penrose.Core.Exceptions;
-using Penrose.Core.Interfaces.Repositories;
+using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Contexts.Queries
 {
@@ -17,16 +17,16 @@ namespace Penrose.Application.Contexts.Queries
         public class FindUserRequestHandler : IRequestHandler<FindUserRequest, User>
         {
             private readonly IMapper _mapper;
-            private readonly IUserRepository _userRepository;
+            private readonly IUserDataStragegy _userDataStragegy;
             
-            public FindUserRequestHandler(IUserRepository userRepository)
+            public FindUserRequestHandler(IUserDataStragegy userDataStragegy)
             {
-                _userRepository = userRepository;
+                _userDataStragegy = userDataStragegy;
             }
             
             public async Task<User> Handle(FindUserRequest request, CancellationToken cancellationToken)
             {
-                User user = await _userRepository.FindAsync(request.Id, cancellationToken);
+                User user = await _userDataStragegy.FindAsync(request.Id, cancellationToken);
                 if (user == null)
                     throw new EntityNotFoundException(nameof(User), request.Id);
 

@@ -6,7 +6,7 @@ using MediatR;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Core.Common;
 using Penrose.Core.Entities;
-using Penrose.Core.Interfaces.Repositories;
+using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Contexts.Queries
 {
@@ -14,20 +14,20 @@ namespace Penrose.Application.Contexts.Queries
     {
         public class FindAllUsersHandler : IRequestHandler<FindAllUsersRequest, PagedResult<UserDto>>
         {
-            private readonly IUserRepository _userRepository;
+            private readonly IUserDataStragegy _userDataStragegy;
             private readonly IMapper _mapper;
             
             public FindAllUsersHandler(
-                IUserRepository userRepository,
+                IUserDataStragegy userDataStragegy,
                 IMapper mapper)
             {
-                _userRepository = userRepository;
+                _userDataStragegy = userDataStragegy;
                 _mapper = mapper;
             }
 
             public async Task<PagedResult<UserDto>> Handle(FindAllUsersRequest request, CancellationToken cancellationToken)
             {
-                PagedResult<User> users = await _userRepository.FindAllAsync(request, CancellationToken.None);
+                PagedResult<User> users = await _userDataStragegy.FindAllAsync(request, CancellationToken.None);
                 return new PagedResult<UserDto>()
                 {
                     Count = users.Count,

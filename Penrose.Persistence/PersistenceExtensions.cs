@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Penrose.Core.Interfaces;
 using Penrose.Persistence.Context;
-using Penrose.Persistence.Strategies;
 
 namespace Penrose.Persistence
 {
@@ -16,8 +15,6 @@ namespace Penrose.Persistence
             services
                 .AddDbContext<IPenroseDbContext, PenroseDbContext>(options =>
                     options.UseSqlServer(connectionString));
-
-            services.AddTransient(typeof(IDataStrategy<>), typeof(DataStrategy<>));
         }
     }
 }
