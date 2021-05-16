@@ -1,16 +1,16 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using FluentValidation.Results;
 using MediatR;
-using Penrose.Application.Contexts.Validators;
+using Penrose.Application.Contexts.Users.Validators;
 using Penrose.Application.DataTransferObjects;
+using Penrose.Application.Extensions;
 using Penrose.Application.Interfaces;
 using Penrose.Core.Entities;
 using Penrose.Core.Exceptions;
 using Penrose.Core.Interfaces.UserStrategies;
 
-namespace Penrose.Application.Contexts.Commands
+namespace Penrose.Application.Contexts.Users.Commands
 {
     public class CreateUserRequest : IRequest<UserDto>
     {
@@ -56,7 +56,7 @@ namespace Penrose.Application.Contexts.Commands
 
             private async Task CheckIfUserExists(string nickname, CancellationToken cancellationToken)
             {
-                bool userAlreadyExists = await _userDataStragegy.NicknameExists(nickname, cancellationToken);
+                bool userAlreadyExists = await _userDataStragegy.NicknameExistsAsync(nickname, cancellationToken);
                 if (userAlreadyExists)
                     throw new EntityAlreadyExistsException(nameof(User), nickname);
             }
@@ -64,9 +64,7 @@ namespace Penrose.Application.Contexts.Commands
             private async Task ValidateRequest(CreateUserRequest request, CancellationToken cancellationToken)
             {
                 CreateUserDtoValidator dtoValidator = new CreateUserDtoValidator();
-                ValidationResult validationResult = await dtoValidator.ValidateAsync(request, cancellationToken);
-                if (!validationResult.IsValid)
-                    throw new EntityValidationException(nameof(User), request, validationResult.Errors);
+                await dtoValidator.ValidateRequest(request, nameof(User), cancellationToken);
             }
         }
     }

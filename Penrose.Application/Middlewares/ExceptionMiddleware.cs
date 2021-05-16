@@ -52,14 +52,18 @@ namespace Penrose.Application.Middlewares
             }
         }
 
-        private static Task Response(HttpContext context, HttpStatusCode statusCode, Exception exception,
+        private Task Response(HttpContext context, HttpStatusCode statusCode, Exception exception,
             object response = null)
         {
             string message = exception.Message;
             Guid requestId = context.GetRequestId();
+
+            if (!_hostEnvironment.IsDevelopment())
+                message = "Internal Server Error";
+            
             ApiResponse<object> apiResponse = new ApiResponse<object>
             {
-                Message = exception.Message,
+                Message = message,
                 Status = statusCode,
                 RequestId = requestId,
                 Data = response

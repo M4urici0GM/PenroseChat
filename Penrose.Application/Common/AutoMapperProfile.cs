@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Penrose.Application.Contexts.Commands;
+using Penrose.Application.Contexts.Users.Commands;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Core.Entities;
 

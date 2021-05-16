@@ -36,13 +36,13 @@ namespace Penrose.Application.Repositories.Users
             return user;
         }
 
-        public async Task<User> FindByNickname(string nickname, CancellationToken cancellationToken)
+        public async Task<User> FindByNicknameAsync(string nickname, CancellationToken cancellationToken)
         {
             return await _userDb
                 .FirstOrDefaultAsync(x => x.Nickname == nickname, cancellationToken);
         }
 
-        public async Task<bool> NicknameExists(string nickname, CancellationToken cancellationToken)
+        public async Task<bool> NicknameExistsAsync(string nickname, CancellationToken cancellationToken)
         {
             return await _userDb
                 .AnyAsync(x => x.Nickname == nickname, cancellationToken);

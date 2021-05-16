@@ -8,7 +8,7 @@ using Penrose.Core.Common;
 using Penrose.Core.Entities;
 using Penrose.Core.Interfaces.UserStrategies;
 
-namespace Penrose.Application.Contexts.Queries
+namespace Penrose.Application.Contexts.Users.Queries
 {
     public class FindAllUsersRequest : PagedRequest, IRequest<PagedResult<UserDto>>
     {

@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories" />
+      <Folder Include="Contexts\Users" />
     </ItemGroup>
 
 </Project>
