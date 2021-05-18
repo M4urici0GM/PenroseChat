@@ -2,7 +2,7 @@
 {
     public class AuthenticatedUserDto
     {
-        public WebTokenDto WebToken { get; set; }
+        public JwtTokenDto JwtToken { get; set; }
         public UserDto User { get; set; }
     }
 }

@@ -23,16 +23,16 @@ namespace Penrose.Application.Contexts.Users.Commands
         public class CreateUserRequestHandler : IRequestHandler<CreateUserRequest, UserDto>
         {
 
-            private readonly IUserDataStragegy _userDataStragegy;
+            private readonly IUserDataStrategy _userDataStrategy;
             private readonly IMapper _mapper;
             private readonly IHashingService _hashingService;
             
             public CreateUserRequestHandler(
-                IUserDataStragegy userDataStragegy,
+                IUserDataStrategy userDataStrategy,
                 IMapper mapper,
                 IHashingService hashingService)
             {
-                _userDataStragegy = userDataStragegy;
+                _userDataStrategy = userDataStrategy;
                 _mapper = mapper;
                 _hashingService = hashingService;
             }
@@ -40,10 +40,10 @@ namespace Penrose.Application.Contexts.Users.Commands
             public async Task<UserDto> Handle(CreateUserRequest request, CancellationToken cancellationToken)
             {
                 await ValidateRequest(request, cancellationToken);
-                await CheckIfUserExists(request.Nickname, cancellationToken);
+                await CheckIfUserExists(request.Nickname, request.Email, cancellationToken);
                 User user = await MapUser(request);
                 
-                await _userDataStragegy.SaveAsync(user);
+                await _userDataStrategy.SaveAsync(user);
                 return _mapper.Map<UserDto>(user);
             }
 
@@ -54,11 +54,11 @@ namespace Penrose.Application.Contexts.Users.Commands
                 return user;
             }
 
-            private async Task CheckIfUserExists(string nickname, CancellationToken cancellationToken)
+            private async Task CheckIfUserExists(string nickname, string email, CancellationToken cancellationToken)
             {
-                bool userAlreadyExists = await _userDataStragegy.NicknameExistsAsync(nickname, cancellationToken);
+                bool userAlreadyExists = await _userDataStrategy.NicknameOrEmailExists(nickname, email, cancellationToken);
                 if (userAlreadyExists)
-                    throw new EntityAlreadyExistsException(nameof(User), nickname);
+                    throw new EntityAlreadyExistsException(nameof(User), $"{nickname} or {email}");
             }
             
             private async Task ValidateRequest(CreateUserRequest request, CancellationToken cancellationToken)

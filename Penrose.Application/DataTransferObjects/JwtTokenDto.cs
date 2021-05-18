@@ -2,7 +2,7 @@
 
 namespace Penrose.Application.DataTransferObjects
 {
-    public class WebTokenDto
+    public class JwtTokenDto
     {
         public DateTime CreatedAt { get; set; }
         public string Token { get; set; }

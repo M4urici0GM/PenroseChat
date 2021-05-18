@@ -34,6 +34,10 @@ namespace Penrose.Application.Middlewares
             {
                 await Response(httpContext, HttpStatusCode.Conflict, ex);
             }
+            catch (EntityNotFoundException ex)
+            {
+                await Response(httpContext, HttpStatusCode.NotFound, ex);
+            }
             catch (EntityValidationException ex)
             {
                 await Response(
@@ -58,7 +62,7 @@ namespace Penrose.Application.Middlewares
             string message = exception.Message;
             Guid requestId = context.GetRequestId();
 
-            if (!_hostEnvironment.IsDevelopment())
+            if (!_hostEnvironment.IsDevelopment() && statusCode == HttpStatusCode.InternalServerError)
                 message = "Internal Server Error";
             
             ApiResponse<object> apiResponse = new ApiResponse<object>

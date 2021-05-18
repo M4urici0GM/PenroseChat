@@ -14,20 +14,20 @@ namespace Penrose.Application.Contexts.Users.Queries
     {
         public class FindAllUsersHandler : IRequestHandler<FindAllUsersRequest, PagedResult<UserDto>>
         {
-            private readonly IUserDataStragegy _userDataStragegy;
+            private readonly IUserDataStrategy _userDataStrategy;
             private readonly IMapper _mapper;
             
             public FindAllUsersHandler(
-                IUserDataStragegy userDataStragegy,
+                IUserDataStrategy userDataStrategy,
                 IMapper mapper)
             {
-                _userDataStragegy = userDataStragegy;
+                _userDataStrategy = userDataStrategy;
                 _mapper = mapper;
             }
 
             public async Task<PagedResult<UserDto>> Handle(FindAllUsersRequest request, CancellationToken cancellationToken)
             {
-                PagedResult<User> users = await _userDataStragegy.FindAllAsync(request, CancellationToken.None);
+                PagedResult<User> users = await _userDataStrategy.FindAllAsync(request, CancellationToken.None);
                 return new PagedResult<UserDto>()
                 {
                     Count = users.Count,

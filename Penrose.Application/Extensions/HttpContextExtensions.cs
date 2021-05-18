@@ -31,7 +31,7 @@ namespace Penrose.Application.Extensions
                 throw new InvalidCredentialException("Missing user identity!");
             
             ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
-            Claim claim = claimsIdentity?.Claims.FirstOrDefault(x => x.Type == JwtTokenClaimNames.UserId);
+            Claim claim = claimsIdentity?.Claims.FirstOrDefault(x => x.Type == PenroseJwtTokenClaimNames.UserId);
             
             if (claim == null)
                 throw new InvalidCredentialException("Missing user claim!");

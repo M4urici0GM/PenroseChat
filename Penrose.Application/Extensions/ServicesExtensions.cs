@@ -8,7 +8,8 @@ namespace Penrose.Application.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IHashingService, HashingService>();
+            services.AddTransient<IHashingService, HashingService>();
+            services.AddTransient<IJwtService, JwtService>();
         }
     }
 }

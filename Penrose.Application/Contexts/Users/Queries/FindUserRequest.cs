@@ -17,19 +17,19 @@ namespace Penrose.Application.Contexts.Users.Queries
         public class FindUserRequestHandler : IRequestHandler<FindUserRequest, UserDto>
         {
             private readonly IMapper _mapper;
-            private readonly IUserDataStragegy _userDataStragegy;
+            private readonly IUserDataStrategy _userDataStrategy;
              
             public FindUserRequestHandler(
-                IUserDataStragegy userDataStragegy,
+                IUserDataStrategy userDataStrategy,
                 IMapper mapper)
             {
-                _userDataStragegy = userDataStragegy;
+                _userDataStrategy = userDataStrategy;
                 _mapper = mapper;
             }
             
             public async Task<UserDto> Handle(FindUserRequest request, CancellationToken cancellationToken)
             {
-                User user = await _userDataStragegy.FindAsync(request.Id, cancellationToken);
+                User user = await _userDataStrategy.FindAsync(request.Id, cancellationToken);
                 if (user == null)
                     throw new EntityNotFoundException(nameof(User), request.Id);
 

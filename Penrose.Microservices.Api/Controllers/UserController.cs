@@ -42,6 +42,13 @@ namespace Penrose.Microservices.User.Controllers
             return Ok(createdUser);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
+        {
+            UserDto updatedUser = await _mediator.Send(request);
+            return Ok(updatedUser);
+        }
+
         [HttpGet, Route("me")]
         public async Task<IActionResult> GetCurrentUser()
         {

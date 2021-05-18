@@ -1,4 +1,5 @@
 ﻿using System.Security.Authentication;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,6 +11,7 @@ using Penrose.Application.Interfaces;
 using Penrose.Core.Entities;
 using Penrose.Core.Exceptions;
 using Penrose.Core.Interfaces.UserStrategies;
+using Penrose.Core.Structs;
 
 namespace Penrose.Application.Contexts.Users.Commands
 {
@@ -21,45 +23,60 @@ namespace Penrose.Application.Contexts.Users.Commands
         public class AuthenticateRequestHandler : IRequestHandler<AuthenticateRequest, AuthenticatedUserDto>
         {
             private readonly IHashingService _hashingService;
-            private readonly IUserDataStragegy _userDataStragegy;
+            private readonly IUserDataStrategy _userDataStrategy;
+            private readonly IJwtService _jwtService;
             private readonly IMapper _mapper;
 
             public AuthenticateRequestHandler(
                 IHashingService hashingService,
-                IUserDataStragegy userDataStragegy,
-                IMapper mapper)
+                IUserDataStrategy userDataStrategy,
+                IMapper mapper,
+                IJwtService jwtService)
             {
                 _hashingService = hashingService;
-                _userDataStragegy = userDataStragegy;
+                _userDataStrategy = userDataStrategy;
                 _mapper = mapper;
+                _jwtService = jwtService;
             }
             
             public async Task<AuthenticatedUserDto> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
             {
                 await new AuthenticateRequestValidator().ValidateRequest(request, nameof(User), cancellationToken);
-                User user = await FindUser(request.Nickname, cancellationToken);
-                await ValidatePassword(user, request.Password);
+                User user = await ValidatePassword(request.Nickname, request.Password, cancellationToken);
+                JwtTokenDto userToken = GenerateUserToken(user);
 
                 return new AuthenticatedUserDto
                 {
                     User = _mapper.Map<UserDto>(user),
+                    JwtToken = userToken,
                 };
+            }
+
+            private JwtTokenDto GenerateUserToken(User user)
+            {
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(user.Nickname);
+                claimsIdentity.AddClaim(new Claim(PenroseJwtTokenClaimNames.UserId, user.Id.ToString("D")));
+
+                return _jwtService.GenerateToken(claimsIdentity);
             }
 
             private async Task<User> FindUser(string nickname, CancellationToken cancellationToken)
             {
-                User user = await _userDataStragegy.FindByNicknameAsync(nickname, cancellationToken);
-                if (user == null)
+                User user = await _userDataStrategy.FindByNicknameAsync(nickname, cancellationToken);
+                if (user == null || !user.IsActive)
                     throw new EntityNotFoundException(nameof(User), nickname);
 
                 return user;
             }
 
-            private async Task ValidatePassword(User user, string providedPassword)
+            private async Task<User> ValidatePassword(string nickname, string providedPassword, CancellationToken cancellationToken)
             {
+                User user = await FindUser(nickname, cancellationToken);
                 bool isPasswordValid = await _hashingService.CompareHashStringAsync(user.Hash, providedPassword);
                 if (!isPasswordValid)
                     throw new InvalidCredentialException("Invalid credentials!");
+
+                return user;
             }
         }
     }

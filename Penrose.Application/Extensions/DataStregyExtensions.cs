@@ -8,7 +8,7 @@ namespace Penrose.Application.Extensions
     {
         public static void AddApplicationDataStrategies(this IServiceCollection services)
         {
-            services.AddScoped<IUserDataStragegy, UserDataStrategy>();
+            services.AddScoped<IUserDataStrategy, UserDataStrategy>();
         }
     }
 }

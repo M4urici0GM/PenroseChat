@@ -1,6 +1,6 @@
 ﻿namespace Penrose.Core.Structs
 {
-    public struct JwtTokenClaimNames
+    public struct PenroseJwtTokenClaimNames
     {
         public const string UserId = "UserId";
     }

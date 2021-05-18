@@ -18,7 +18,7 @@ namespace Penrose.Microservices.User
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBasicApi();
+            services.AddBasicApi(_configuration);
             services.AddPersistence(_configuration);
         }
 

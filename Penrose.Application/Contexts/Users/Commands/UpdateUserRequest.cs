@@ -18,29 +18,29 @@ namespace Penrose.Application.Contexts.Users.Commands
         
         public class UpdateUserRequestHandler : IRequestHandler<UpdateUserRequest, UserDto>
         {
-            private readonly IUserDataStragegy _userDataStragegy;
+            private readonly IUserDataStrategy _userDataStrategy;
             private readonly IMapper _mapper;
             private readonly IHttpContextAccessor _contextAccessor;
             
             public UpdateUserRequestHandler(
-                IUserDataStragegy userDataStragegy,
+                IUserDataStrategy userDataStrategy,
                 IMapper mapper,
                 IHttpContextAccessor httpContextAccessor)
             {
                 _mapper = mapper;
-                _userDataStragegy = userDataStragegy;
+                _userDataStrategy = userDataStrategy;
                 _contextAccessor = httpContextAccessor;
             }
 
             public async Task<UserDto> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
             {
                 Guid currentUserId = _contextAccessor.GetUserId();
-                User currentUser = await _userDataStragegy.FindAsync(currentUserId, cancellationToken);
+                User currentUser = await _userDataStrategy.FindAsync(currentUserId, cancellationToken);
 
                 currentUser.Name = request.Name;
                 currentUser.LastName = request.LastName;
 
-                await _userDataStragegy.SaveAsync(currentUser);
+                await _userDataStrategy.SaveAsync(currentUser);
 
                 return _mapper.Map<UserDto>(currentUser);
             }

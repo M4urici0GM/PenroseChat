@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -10,8 +11,9 @@ namespace Penrose.Application.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static IServiceCollection AddBasicApi(this IServiceCollection services)
+        public static IServiceCollection AddBasicApi(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddApplicationJwtBearer(configuration);
             services
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -20,10 +22,12 @@ namespace Penrose.Application.Extensions
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
+            services.AddHttpContextAccessor();
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.ConfigureAutoMapper();
             services.AddApplicationDataStrategies();
             services.AddApplicationServices();
+            services.AddApplicationOptions(configuration);
             return services;
         }
 

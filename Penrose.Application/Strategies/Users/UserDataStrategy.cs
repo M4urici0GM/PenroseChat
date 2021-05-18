@@ -13,7 +13,7 @@ using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Repositories.Users
 {
-    public class UserDataStrategy : DataStrategy<User>, IUserDataStragegy
+    public class UserDataStrategy : DataStrategy<User>, IUserDataStrategy
     {
         private readonly DbSet<User> _userDb;
         public UserDataStrategy(IPenroseDbContext dbContext) : base(dbContext)
@@ -46,6 +46,12 @@ namespace Penrose.Application.Repositories.Users
         {
             return await _userDb
                 .AnyAsync(x => x.Nickname == nickname, cancellationToken);
+        }
+
+        public async Task<bool> NicknameOrEmailExists(string nickname, string email, CancellationToken cancellationToken)
+        {
+            return await _userDb
+                .AnyAsync(x => x.Nickname == nickname || x.Email == email, cancellationToken);
         }
 
         public async Task<User> UpdateAsync(User user, CancellationToken cancellationToken = new())
