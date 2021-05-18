@@ -47,9 +47,9 @@ This project started as a way to show how well can i grab a simple application, 
 - [x] Basic DLLs structure
 - [x] Basic APIs structure
 - [x] Error Handling Middleware
-- [ ] User Endpoints
+- [x] User Endpoints
   - [x] Create
-  - [ ] Update
+  - [x] Update
   - [x] Get all users
   - [x] Get one user
 - [ ] Message Endpoints
@@ -57,9 +57,11 @@ This project started as a way to show how well can i grab a simple application, 
   - [ ] Get chat messages
   - [ ] Create new chat 
   - [ ] Create new group chat
-  - [ ] Add Participant to chat
-  - [ ] Remove Participant from chat
+  - [ ] Add Participant to a group
+  - [ ] Remove Participant from a group
 - [ ] Websocket Connection Microservice
+- [ ] Sending Message
+- [ ] Kubernetes && Helm Charts
 - [ ] User Notification
 - [ ] Message Received
 - [ ] Message Seen

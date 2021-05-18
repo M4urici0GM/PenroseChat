@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Penrose.Application.Common;
