@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +21,6 @@ namespace Penrose.Application.Extensions
             IJwtSigningKey jwtSigningKey = new JwtSigningKey(tokenOptions);
             services.Configure<JwtTokenOptions>(configuration.GetSection(nameof(JwtTokenOptions)));
             services.AddSingleton(jwtSigningKey);
-
 
             services.AddAuthentication(options =>
             {

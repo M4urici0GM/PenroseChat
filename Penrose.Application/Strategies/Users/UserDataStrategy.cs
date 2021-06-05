@@ -4,14 +4,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Penrose.Application.Common;
 using Penrose.Application.Extensions;
-using Penrose.Application.Strategies;
 using Penrose.Core.Common;
 using Penrose.Core.Entities;
 using Penrose.Core.Interfaces;
-using Penrose.Core.Interfaces.UserStrategies;
+using Penrose.Application.Interfaces.UserStrategies;
 
-namespace Penrose.Application.Repositories.Users
+namespace Penrose.Application.Strategies.Users
 {
     public class UserDataStrategy : DataStrategy<User>, IUserDataStrategy
     {

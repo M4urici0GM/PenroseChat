@@ -1,4 +1,4 @@
-﻿namespace Penrose.Core.Interfaces.UserStrategies
+﻿namespace Penrose.Application.Interfaces.UserStrategies
 {
     public interface IUserCacheStrategy
     {

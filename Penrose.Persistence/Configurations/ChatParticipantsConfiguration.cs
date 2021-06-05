@@ -3,9 +3,9 @@ using Penrose.Core.Entities;
 
 namespace Penrose.Persistence.Configurations
 {
-    public class ChatParticipantsConfiguration : EntityConfiguration<ChatParticipants>
+    public class ChatParticipantsConfiguration : EntityConfiguration<ChatParticipant>
     {
-        protected override void InternalConfiguration(EntityTypeBuilder<ChatParticipants> builder)
+        protected override void InternalConfiguration(EntityTypeBuilder<ChatParticipant> builder)
         {
             builder.HasOne(x => x.User)
                 .WithMany()

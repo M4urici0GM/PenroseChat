@@ -1,9 +1,8 @@
-﻿using Penrose.Application.Strategies;
+﻿using ServiceStack.Redis;
 using Penrose.Core.Entities;
-using Penrose.Core.Interfaces.UserStrategies;
-using ServiceStack.Redis;
+using Penrose.Application.Interfaces.UserStrategies;
 
-namespace Penrose.Application.Repositories.Users
+namespace Penrose.Application.Strategies.Users
 {
     public class UserCacheStrategy : CacheStrategy<User>, IUserCacheStrategy
     {

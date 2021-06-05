@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Penrose.Application.DataTransferObjects;
+using Penrose.Application.Interfaces.UserStrategies;
 using Penrose.Core.Entities;
 using Penrose.Core.Exceptions;
-using Penrose.Core.Interfaces.UserStrategies;
+
 
 namespace Penrose.Application.Contexts.Users.Queries
 {
@@ -16,8 +17,8 @@ namespace Penrose.Application.Contexts.Users.Queries
 
         public class FindUserRequestHandler : IRequestHandler<FindUserRequest, UserDto>
         {
-            private readonly IMapper _mapper;
             private readonly IUserDataStrategy _userDataStrategy;
+            private readonly IMapper _mapper;
              
             public FindUserRequestHandler(
                 IUserDataStrategy userDataStrategy,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Penrose.Application.Common;
 using Penrose.Application.Contexts.Users.Commands;
@@ -35,7 +36,7 @@ namespace Penrose.Microservices.User.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public async Task<IActionResult> Create([FromBody]CreateUserRequest userRequestDto)
         {
             UserDto createdUser = await _mediator.Send(userRequestDto);

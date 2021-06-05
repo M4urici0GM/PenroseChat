@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System;
+using System.Security.Cryptography.Xml;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Penrose.Core.Entities;
 
 namespace Penrose.Persistence.Configurations
@@ -14,6 +16,10 @@ namespace Penrose.Persistence.Configurations
             builder.HasMany(x => x.Participants)
                 .WithOne(x => x.Chat)
                 .HasForeignKey(x => x.ChatId);
+
+            builder.HasOne(x => x.Properties)
+                .WithOne(x => x.Chat)
+                .HasForeignKey<ChatProperties>(x => x.ChatId);
         }
     }
 }

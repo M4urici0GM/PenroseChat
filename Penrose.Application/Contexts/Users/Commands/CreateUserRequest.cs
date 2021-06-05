@@ -6,9 +6,9 @@ using Penrose.Application.Contexts.Users.Validators;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Application.Extensions;
 using Penrose.Application.Interfaces;
+using Penrose.Application.Interfaces.UserStrategies;
 using Penrose.Core.Entities;
 using Penrose.Core.Exceptions;
-using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Contexts.Users.Commands
 {

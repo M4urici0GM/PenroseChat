@@ -6,8 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Application.Extensions;
+using Penrose.Application.Interfaces.UserStrategies;
 using Penrose.Core.Entities;
-using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Contexts.Users.Commands
 {

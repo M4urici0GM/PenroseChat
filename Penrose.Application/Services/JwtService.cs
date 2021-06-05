@@ -44,7 +44,6 @@ namespace Penrose.Application.Services
             };
             
             // TODO: Implement Refresh Tokens
-
             SecurityToken securityToken = _tokenHandler.CreateToken(tokenDescriptor);
             return new JwtTokenDto()
             {

@@ -5,7 +5,8 @@ namespace Penrose.Core.Entities
 {
     public class Chat : AuditableEntity
     {
-        public IEnumerable<ChatParticipants> Participants { get; set; }
+        public IEnumerable<ChatParticipant> Participants { get; set; }
         public IEnumerable<ChatMessage> Messages { get; set; }
+        public ChatProperties Properties { get; set; }
     }
 }

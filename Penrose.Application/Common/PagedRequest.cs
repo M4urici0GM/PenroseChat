@@ -1,4 +1,4 @@
-﻿namespace Penrose.Core.Common
+﻿namespace Penrose.Application.Common
 {
     public class PagedRequest
     {

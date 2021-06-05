@@ -8,9 +8,9 @@ using Penrose.Application.Contexts.Users.Validators;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Application.Extensions;
 using Penrose.Application.Interfaces;
+using Penrose.Application.Interfaces.UserStrategies;
 using Penrose.Core.Entities;
 using Penrose.Core.Exceptions;
-using Penrose.Core.Interfaces.UserStrategies;
 using Penrose.Core.Structs;
 
 namespace Penrose.Application.Contexts.Users.Commands
@@ -56,7 +56,8 @@ namespace Penrose.Application.Contexts.Users.Commands
             {
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(user.Nickname);
                 claimsIdentity.AddClaim(new Claim(PenroseJwtTokenClaimNames.UserId, user.Id.ToString("D")));
-
+                claimsIdentity.AddClaim(new Claim(PenroseJwtTokenClaimNames.DisplayName, $"{user.Name} {user.LastName}"));
+                
                 return _jwtService.GenerateToken(claimsIdentity);
             }
 

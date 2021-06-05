@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Penrose.Application.Repositories.Users;
-using Penrose.Core.Interfaces.UserStrategies;
+using Penrose.Application.Interfaces.ChatStrategies;
+using Penrose.Application.Strategies.Chats;
+using Penrose.Application.Strategies.Users;
+using Penrose.Application.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Extensions
 {
@@ -8,7 +10,8 @@ namespace Penrose.Application.Extensions
     {
         public static void AddApplicationDataStrategies(this IServiceCollection services)
         {
-            services.AddScoped<IUserDataStrategy, UserDataStrategy>();
+            services.AddTransient<IUserDataStrategy, UserDataStrategy>();
+            services.AddTransient<IChatDataStrategy, ChatDataStrategy>();
         }
     }
 }

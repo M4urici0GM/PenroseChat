@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Penrose.Core.Common
+namespace Penrose.Application.Common
 {
     public class PagedResult<TEntity> where TEntity : class
     {

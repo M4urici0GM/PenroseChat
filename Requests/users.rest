@@ -1,0 +1,29 @@
+POST http://localhost:5000/api/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "nickname": "m4urici0gm",
+  "password": "Mauricio@1234",
+  "name": "Mauricio",
+  "lastName": "Barbosa",
+  "email": "mgbftw@gmail.com"
+}
+
+###
+POST http://localhost:5000/api/authenticate
+Content-Type: application/json
+
+{
+  "nickname": "m4urici0gm",
+  "password": "Mauricio@1234"
+}
+
+###
+
+GET http://localhost:5000/api/user/3bed0009-269c-43c0-4e4e-08d927edeba8 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiM2JlZDAwMDktMjY5Yy00M2MwLTRlNGUtMDhkOTI3ZWRlYmE4IiwiZGlzcGxheV9uYW1lIjoiTWF1cmljaW8gQmFyYm9zYSIsImp0aSI6IjZmYzEzMzBhLTIzY2ItNDUyMC1iYjhiLTg1YTQxODhhNmIzMiIsImF1dGhfdGltZSI6IjIwMjEtMDYtMDUgMDc6MDI6MDdaIiwibmJmIjoxNjIyODc2NTI3LCJleHAiOjE2MjI4ODAxMjcsImlhdCI6MTYyMjg3NjUyNywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.UAgc3j_MFfpKB3X0jtOBkQAvB7nSRScvnx4h3OWF56w
+
+###
+
+GET http://localhost:5000/api/chat

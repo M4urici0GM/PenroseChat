@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Penrose.Application.Common;
 using Penrose.Core.Common;
 using Penrose.Core.Entities;
 
-namespace Penrose.Core.Interfaces.UserStrategies
+namespace Penrose.Application.Interfaces.UserStrategies
 {
     public interface IUserDataStrategy
     {

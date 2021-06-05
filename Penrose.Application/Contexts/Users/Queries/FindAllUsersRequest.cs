@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Penrose.Application.Common;
 using Penrose.Application.DataTransferObjects;
+using Penrose.Application.Interfaces.UserStrategies;
 using Penrose.Core.Common;
 using Penrose.Core.Entities;
-using Penrose.Core.Interfaces.UserStrategies;
 
 namespace Penrose.Application.Contexts.Users.Queries
 {

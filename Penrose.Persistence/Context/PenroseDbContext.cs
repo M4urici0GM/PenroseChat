@@ -14,7 +14,7 @@ namespace Penrose.Persistence.Context
     public class PenroseDbContext : DbContext, IPenroseDbContext
     {
         public PenroseDbContext(DbContextOptions options) : base(options)
-        {
+        { 
             
         }
         

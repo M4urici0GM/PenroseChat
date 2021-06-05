@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Penrose.Application.Common;
 using Penrose.Application.Contexts.Users.Commands;
@@ -17,7 +18,7 @@ namespace Penrose.Microservices.User.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
         {
             AuthenticatedUserDto userDto = await _mediator.Send(request);
