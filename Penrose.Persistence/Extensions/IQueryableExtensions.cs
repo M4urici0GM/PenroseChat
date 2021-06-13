@@ -1,18 +1,19 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Penrose.Application.Common;
-using Penrose.Core.Common;
+using Penrose.Core.Interfaces.Common;
 
 namespace Penrose.Application.Extensions
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> query, PagedRequest pagedRequest)
+        public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> query, IPagedRequest pagedRequest)
         {
             return query
-                .Take(pagedRequest.Pagesize == 0 ? 20 : (int) pagedRequest.Pagesize)
+                .Take(pagedRequest.PageSize == 0 ? 20 : (int) pagedRequest.PageSize)
                 .Skip((int)pagedRequest.Offset);
         }
         

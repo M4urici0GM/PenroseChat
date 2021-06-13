@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Penrose.Application.Common;
 using Penrose.Application.DataTransferObjects;
-using Penrose.Core.Common;
 
 namespace Penrose.Application.Interfaces.ChatStrategies
 {

@@ -1,13 +1,19 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Penrose.Application.Extensions;
+using Penrose.Application.Interfaces;
 using Penrose.Core.Generics;
 
 namespace Penrose.Application.Common
 {
     public class BasePenroseController : ControllerBase
     {
-    
+        protected readonly ISecurityService SecurityService;
+        
+        public BasePenroseController(ISecurityService securityService)
+        {
+            SecurityService = securityService;
+        }
+
         public OkObjectResult Ok<T>(T value) where T : class
         {
             return Ok(null, value);
@@ -25,7 +31,7 @@ namespace Penrose.Application.Common
                 Message = message,
                 Data = value,
                 Status = HttpStatusCode.OK,
-                RequestId = HttpContext.GetRequestId()
+                RequestId = SecurityService.GetRequestId(),
             });
         }
         
@@ -36,7 +42,7 @@ namespace Penrose.Application.Common
                 Message = message,
                 Data = value,
                 Status = HttpStatusCode.Created,
-                RequestId = HttpContext.GetRequestId()
+                RequestId = SecurityService.GetRequestId(),
             });
         }
         
@@ -47,7 +53,7 @@ namespace Penrose.Application.Common
                 Message = message,
                 Data = value,
                 Status = HttpStatusCode.Forbidden,
-                RequestId = HttpContext.GetRequestId()
+                RequestId = SecurityService.GetRequestId(),
             })
             {
                 StatusCode = (int) HttpStatusCode.Forbidden,

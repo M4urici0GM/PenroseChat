@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using Penrose.Application.Middlewares;
+using Penrose.Application.Extensions;
 
-namespace Penrose.Application.Extensions
+namespace Penrose.Microservices.User.Extensions
 {
     public static class ApplicationExtensions
     {
@@ -38,36 +38,12 @@ namespace Penrose.Application.Extensions
                 });
 
             services.AddHttpContextAccessor();
-            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.ConfigureAutoMapper();
             services.AddApplicationDataStrategies();
             services.AddApplicationServices();
             services.AddApplicationOptions(configuration);
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;
-        }
-
-        public static IApplicationBuilder UseBasicConfiguration(this IApplicationBuilder app,
-            IHostEnvironment hostEnvironment)
-        {
-            if (!hostEnvironment.IsDevelopment())
-            {
-                app.UseHttpsRedirection();
-                app.UseHsts();
-            }
-
-            app.UseCors(options =>
-            {
-                options.AllowAnyHeader();
-                options.AllowAnyOrigin();
-                options.AllowAnyMethod();
-            });
-
-            app.UseMiddleware<ExceptionMiddleware>();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseEndpoints(x => x.MapControllers());
-            return app;
         }
     }
 }

@@ -21,8 +21,4 @@
       <ProjectReference Include="..\Penrose.Core\Penrose.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Clients" />
-    </ItemGroup>
-
 </Project>

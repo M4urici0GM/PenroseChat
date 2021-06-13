@@ -1,6 +1,6 @@
 ﻿using Penrose.Core.Common;
 
-namespace Penrose.Core.Interfaces.Strategies
+namespace Penrose.Application.Interfaces.Strategies
 {
     public interface ICacheDataStrategy<TEntity> where TEntity : AuditableEntity
     {

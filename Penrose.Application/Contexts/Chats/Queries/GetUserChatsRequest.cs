@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Penrose.Application.Common;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Application.Extensions;
+using Penrose.Application.Interfaces;
 using Penrose.Application.Interfaces.ChatStrategies;
 
 namespace Penrose.Application.Contexts.Chats.Queries
@@ -15,18 +16,18 @@ namespace Penrose.Application.Contexts.Chats.Queries
     {
         public class GetUserChatsRequestHandler : IRequestHandler<GetUserChatsRequest, PagedResult<ChatDto>>
         {
-            private readonly IHttpContextAccessor _httpContextAccessor;
             private readonly IChatDataStrategy _chatDataStrategy;
+            private readonly ISecurityService _securityService;
 
-            public GetUserChatsRequestHandler(IHttpContextAccessor httpContextAccessor, IChatDataStrategy chatDataStrategy)
+            public GetUserChatsRequestHandler(IChatDataStrategy chatDataStrategy, ISecurityService securityService)
             {
-                _httpContextAccessor = httpContextAccessor;
                 _chatDataStrategy = chatDataStrategy;
+                _securityService = securityService;
             }
 
             public async Task<PagedResult<ChatDto>> Handle(GetUserChatsRequest request, CancellationToken cancellationToken)
             {
-                Guid userId = _httpContextAccessor.GetUserId();
+                Guid userId = _securityService.GetCurrentUserId();
                 int chatCount = await _chatDataStrategy.CountUserChatsAsync(userId, cancellationToken);
                 IEnumerable<ChatDto> userChats = await _chatDataStrategy.FindUserChatsAsync(userId, cancellationToken);
 
@@ -34,7 +35,7 @@ namespace Penrose.Application.Contexts.Chats.Queries
                 {
                     Count = chatCount,
                     Offset = request.Offset,
-                    Pagesize = request.Pagesize,
+                    PageSize = request.PageSize,
                     Records = userChats,
                 };
             }

@@ -1,6 +1,6 @@
-﻿using Penrose.Core.Common;
+﻿using Penrose.Application.Interfaces.Strategies;
+using Penrose.Core.Common;
 using Penrose.Core.Interfaces;
-using Penrose.Core.Interfaces.Strategies;
 using ServiceStack.Redis;
 
 namespace Penrose.Application.Strategies

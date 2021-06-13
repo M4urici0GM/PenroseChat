@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Application.Extensions;
+using Penrose.Application.Interfaces;
 using Penrose.Application.Interfaces.UserStrategies;
 using Penrose.Core.Entities;
 
@@ -19,22 +20,21 @@ namespace Penrose.Application.Contexts.Users.Commands
         public class UpdateUserRequestHandler : IRequestHandler<UpdateUserRequest, UserDto>
         {
             private readonly IUserDataStrategy _userDataStrategy;
+            private readonly ISecurityService _securityService;
             private readonly IMapper _mapper;
-            private readonly IHttpContextAccessor _contextAccessor;
             
             public UpdateUserRequestHandler(
                 IUserDataStrategy userDataStrategy,
-                IMapper mapper,
-                IHttpContextAccessor httpContextAccessor)
+                IMapper mapper, ISecurityService securityService)
             {
                 _mapper = mapper;
+                _securityService = securityService;
                 _userDataStrategy = userDataStrategy;
-                _contextAccessor = httpContextAccessor;
             }
 
             public async Task<UserDto> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
             {
-                Guid currentUserId = _contextAccessor.GetUserId();
+                Guid currentUserId = _securityService.GetCurrentUserId();
                 User currentUser = await _userDataStrategy.FindAsync(currentUserId, cancellationToken);
 
                 currentUser.Name = request.Name;

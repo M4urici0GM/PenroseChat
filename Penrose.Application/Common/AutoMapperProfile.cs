@@ -19,6 +19,7 @@ namespace Penrose.Application.Common
             CreateMap<CreateUserRequest, User>();
             CreateMap<CreateUserRequest, UserDto>();
             CreateMap<Chat, ChatDto>();
+            CreateMap<UserProperties, UserPropertiesDto>();
         }
     }
 }

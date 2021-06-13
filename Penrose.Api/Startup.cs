@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Penrose.Application.Extensions;
+using Penrose.Microservices.User.Extensions;
+using Penrose.Microservices.User.Middlewares;
 using Penrose.Persistence;
 
 namespace Penrose.Microservices.User
@@ -24,7 +27,25 @@ namespace Penrose.Microservices.User
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseBasicConfiguration(env);
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+                app.UseHsts();
+            }
+
+            app.UseCors(options =>
+            {
+                options.AllowAnyHeader();
+                options.AllowAnyOrigin();
+                options.AllowAnyMethod();
+            });
+
+
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(x => x.MapControllers());
         }
     }
 }

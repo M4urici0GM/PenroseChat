@@ -24,6 +24,7 @@ namespace Penrose.Application.Strategies.Users
         public async Task<User> FindAsync(Guid userId, CancellationToken cancellationToken = new CancellationToken())
         {
             return await _userDb
+                .Include(x => x.Properties)
                 .Where(x => x.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
         }
@@ -39,18 +40,21 @@ namespace Penrose.Application.Strategies.Users
         public async Task<User> FindByNicknameAsync(string nickname, CancellationToken cancellationToken)
         {
             return await _userDb
+                .Include(x => x.Properties)
                 .FirstOrDefaultAsync(x => x.Nickname == nickname, cancellationToken);
         }
 
         public async Task<bool> NicknameExistsAsync(string nickname, CancellationToken cancellationToken)
         {
             return await _userDb
+                .Include(x => x.Properties)
                 .AnyAsync(x => x.Nickname == nickname, cancellationToken);
         }
 
         public async Task<bool> NicknameOrEmailExists(string nickname, string email, CancellationToken cancellationToken)
         {
             return await _userDb
+                .Include(x => x.Properties)
                 .AnyAsync(x => x.Nickname == nickname || x.Email == email, cancellationToken);
         }
 
@@ -68,6 +72,7 @@ namespace Penrose.Application.Strategies.Users
         {
             IQueryable<User> userQuery = _userDb
                 .AsQueryable()
+                .Include(x => x.Properties)
                 .Where(x => x.IsActive);
 
             if (!string.IsNullOrEmpty(pagedRequest.OrderBy))
@@ -88,7 +93,7 @@ namespace Penrose.Application.Strategies.Users
             {
                 Count = recordCount,
                 Offset = pagedRequest.Offset,
-                Pagesize = pagedRequest.Pagesize,
+                PageSize = pagedRequest.PageSize,
                 Records = users,
             };
         }

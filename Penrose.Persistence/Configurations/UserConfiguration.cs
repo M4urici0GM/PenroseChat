@@ -14,8 +14,17 @@ namespace Penrose.Persistence.Configurations
             builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.Hash).IsRequired();
             builder.Property(x => x.LastLogin).IsRequired();
-            builder.Property(x => x.Is2FaEnabled).IsRequired().HasDefaultValue(false);
-            builder.Property(x => x.IsEmailVerified).IsRequired().HasDefaultValue(false);
+            builder.Property(x => x.Is2FaEnabled)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            builder.Property(x => x.IsEmailVerified)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            builder.HasOne(x => x.Properties)
+                .WithOne(x => x.User)
+                .HasForeignKey<UserProperties>(x => x.UserId);
         }
     }
 }

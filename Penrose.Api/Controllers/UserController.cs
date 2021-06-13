@@ -8,6 +8,7 @@ using Penrose.Application.Contexts.Users.Commands;
 using Penrose.Application.Contexts.Users.Queries;
 using Penrose.Application.DataTransferObjects;
 using Penrose.Application.Extensions;
+using Penrose.Application.Interfaces;
 using Penrose.Core.Common;
 
 namespace Penrose.Microservices.User.Controllers
@@ -17,7 +18,7 @@ namespace Penrose.Microservices.User.Controllers
     {
         private readonly IMediator _mediator;
 
-        public UserController(IMediator mediator)
+        public UserController(IMediator mediator, ISecurityService securityService) : base(securityService)
         {
             _mediator = mediator;
         }
@@ -53,7 +54,7 @@ namespace Penrose.Microservices.User.Controllers
         [HttpGet, Route("me")]
         public async Task<IActionResult> GetCurrentUser()
         {
-            Guid currentUserId = HttpContext.GetUserId();
+            Guid currentUserId = SecurityService.GetCurrentUserId();
             UserDto user = await _mediator.Send(new FindUserRequest()
             {
                 Id = currentUserId

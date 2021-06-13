@@ -16,5 +16,6 @@ namespace Penrose.Core.Entities
         public DateTime LastLogin { get; set; }
 
         public IEnumerable<Chat> Chats { get; set; }
+        public UserProperties Properties { get; set; }
     }
 }

@@ -42,6 +42,8 @@ namespace Penrose.Application.Contexts.Users.Commands
                 await ValidateRequest(request, cancellationToken);
                 await CheckIfUserExists(request.Nickname, request.Email, cancellationToken);
                 User user = await MapUser(request);
+                user.Properties = new UserProperties()
+                    { };
                 
                 await _userDataStrategy.SaveAsync(user);
                 return _mapper.Map<UserDto>(user);

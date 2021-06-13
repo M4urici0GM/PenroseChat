@@ -33,7 +33,7 @@ namespace Penrose.Application.Contexts.Users.Queries
                 {
                     Count = users.Count,
                     Offset = users.Offset,
-                    Pagesize = users.Pagesize,
+                    PageSize = users.PageSize,
                     Records = _mapper.Map<IEnumerable<UserDto>>(users.Records),
                 };
             }

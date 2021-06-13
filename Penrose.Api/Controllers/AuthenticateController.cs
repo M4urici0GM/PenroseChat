@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Penrose.Application.Common;
 using Penrose.Application.Contexts.Users.Commands;
 using Penrose.Application.DataTransferObjects;
+using Penrose.Application.Interfaces;
 
 namespace Penrose.Microservices.User.Controllers
 {
@@ -13,7 +14,7 @@ namespace Penrose.Microservices.User.Controllers
     {
         private readonly IMediator _mediator;
         
-        public AuthenticateController(IMediator mediator)
+        public AuthenticateController(IMediator mediator, ISecurityService securityService) : base(securityService)
         {
             _mediator = mediator;
         }

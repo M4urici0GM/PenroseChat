@@ -7,8 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using Penrose.Application.Common;
 using Penrose.Application.Interfaces;
 using Penrose.Application.Options;
+using Penrose.Microservices.User.Services;
 
-namespace Penrose.Application.Extensions
+namespace Penrose.Microservices.User.Extensions
 {
     public static class SecurityExtensions
     {
@@ -19,9 +20,10 @@ namespace Penrose.Application.Extensions
                 .Configure(tokenOptions);
 
             IJwtSigningKey jwtSigningKey = new JwtSigningKey(tokenOptions);
-            services.Configure<JwtTokenOptions>(configuration.GetSection(nameof(JwtTokenOptions)));
+            
             services.AddSingleton(jwtSigningKey);
-
+            services.Configure<JwtTokenOptions>(configuration.GetSection(nameof(JwtTokenOptions)));
+            services.AddTransient<ISecurityService, SecurityService>();
             services.AddAuthentication(options =>
             {
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
