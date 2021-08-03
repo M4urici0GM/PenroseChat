@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Penrose.Application.Extensions;
 using Penrose.Microservices.User.Extensions;
 using Penrose.Microservices.User.Middlewares;
 using Penrose.Persistence;
