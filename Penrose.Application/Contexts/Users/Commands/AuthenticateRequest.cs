@@ -28,10 +28,10 @@ namespace Penrose.Application.Contexts.Users.Commands
             private readonly IMapper _mapper;
 
             public AuthenticateRequestHandler(
-                IHashingService hashingService,
-                IUserDataStrategy userDataStrategy,
                 IMapper mapper,
-                IJwtService jwtService)
+                IJwtService jwtService,
+                IHashingService hashingService,
+                IUserDataStrategy userDataStrategy)
             {
                 _hashingService = hashingService;
                 _userDataStrategy = userDataStrategy;
@@ -39,7 +39,9 @@ namespace Penrose.Application.Contexts.Users.Commands
                 _jwtService = jwtService;
             }
             
-            public async Task<AuthenticatedUserDto> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
+            public async Task<AuthenticatedUserDto> Handle(
+                AuthenticateRequest request,
+                CancellationToken cancellationToken)
             {
                 await new AuthenticateRequestValidator().ValidateRequest(request, nameof(User), cancellationToken);
                 User user = await ValidatePassword(request.Nickname, request.Password, cancellationToken);
@@ -70,7 +72,10 @@ namespace Penrose.Application.Contexts.Users.Commands
                 return user;
             }
 
-            private async Task<User> ValidatePassword(string nickname, string providedPassword, CancellationToken cancellationToken)
+            private async Task<User> ValidatePassword(
+                string nickname,
+                string providedPassword,
+                CancellationToken cancellationToken)
             {
                 User user = await FindUser(nickname, cancellationToken);
                 bool isPasswordValid = await _hashingService.CompareHashStringAsync(user.Hash, providedPassword);

@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penrose.Api", "Penrose.Api\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penrose.Application", "Penrose.Application\Penrose.Application.csproj", "{FA4B86DC-C242-4562-94CB-44BB7C569502}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penrose.Microservices.Websocket", "Penrose.Microservices.Websocket\Penrose.Microservices.Websocket.csproj", "{DB6D0770-2747-4E41-9C03-72E2868B39D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penrose.Infrastructure", "Penrose.Infrastructure\Penrose.Infrastructure.csproj", "{D3E7F7C3-3243-496D-8605-5E40633CA845}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,14 @@ Global
 		{FA4B86DC-C242-4562-94CB-44BB7C569502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA4B86DC-C242-4562-94CB-44BB7C569502}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA4B86DC-C242-4562-94CB-44BB7C569502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB6D0770-2747-4E41-9C03-72E2868B39D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB6D0770-2747-4E41-9C03-72E2868B39D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB6D0770-2747-4E41-9C03-72E2868B39D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB6D0770-2747-4E41-9C03-72E2868B39D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E7F7C3-3243-496D-8605-5E40633CA845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E7F7C3-3243-496D-8605-5E40633CA845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E7F7C3-3243-496D-8605-5E40633CA845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E7F7C3-3243-496D-8605-5E40633CA845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

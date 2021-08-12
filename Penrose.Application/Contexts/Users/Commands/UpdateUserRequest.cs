@@ -37,12 +37,17 @@ namespace Penrose.Application.Contexts.Users.Commands
                 Guid currentUserId = _securityService.GetCurrentUserId();
                 User currentUser = await _userDataStrategy.FindAsync(currentUserId, cancellationToken);
 
-                currentUser.Name = request.Name;
-                currentUser.LastName = request.LastName;
+                User updatedUser = UpdateUserDetails(currentUser, request);
+                await _userDataStrategy.SaveAsync(updatedUser);
 
-                await _userDataStrategy.SaveAsync(currentUser);
+                return _mapper.Map<UserDto>(updatedUser);
+            }
 
-                return _mapper.Map<UserDto>(currentUser);
+            private User UpdateUserDetails(User currentUser, UpdateUserRequest updateUserRequest)
+            {
+                currentUser.Name = updateUserRequest.Name;
+                currentUser.LastName = updateUserRequest.LastName;
+                return currentUser;
             }
         }
     }

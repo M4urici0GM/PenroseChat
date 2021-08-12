@@ -15,8 +15,7 @@ namespace Penrose.Application.Contexts.Messages.Queries
         public Guid ChatId { get; set; }
         public PagedRequest PagedRequest { get; set; }
 
-        public class
-            FindChatMessageRequestHandler : IRequestHandler<FindChatMessagesRequest, PagedResult<ChatMessageDto>>
+        public class FindChatMessageRequestHandler : IRequestHandler<FindChatMessagesRequest, PagedResult<ChatMessageDto>>
         {
             private readonly IChatDataStrategy _chatDataStrategy;
             private readonly ISecurityService _securityService;
@@ -27,7 +26,8 @@ namespace Penrose.Application.Contexts.Messages.Queries
                 _securityService = securityService;
             }
 
-            public async Task<PagedResult<ChatMessageDto>> Handle(FindChatMessagesRequest request,
+            public async Task<PagedResult<ChatMessageDto>> Handle(
+                FindChatMessagesRequest request,
                 CancellationToken cancellationToken)
             {
                 Guid currentUserId = _securityService.GetCurrentUserId();
