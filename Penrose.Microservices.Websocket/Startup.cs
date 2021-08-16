@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Penrose.Core.Interfaces.Clients;
+using Penrose.Infrastructure.EventBus;
+using Penrose.Infrastructure.EventBus.Interfaces;
 using Penrose.Infrastructure.Options.RabbitMq;
 using Penrose.Infrastructure.Services;
 using Penrose.Microservices.Websocket.Consumers;
@@ -35,7 +37,16 @@ namespace Penrose.Microservices.Websocket
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
             services.AddSingleton<IWebsocketManager, WebsocketManager>();
-            services.AddHostedService<WebsocketMessageConsumer>();
+            services.AddSingleton<IRabbitMqEventBus>(serviceProvider =>
+            {
+                IMediator mediator = serviceProvider.GetRequiredService<IMediator>();
+                IRabbitMqClient rabbitMqClient = serviceProvider.GetRequiredService<IRabbitMqClient>();
+                RabbitMqEventBus eventBus = new RabbitMqEventBus(rabbitMqClient, mediator);
+                
+                eventBus.Subscribe<WebsocketNotificationConsumer>();
+
+                return eventBus;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

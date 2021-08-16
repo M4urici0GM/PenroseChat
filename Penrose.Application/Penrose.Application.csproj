@@ -22,11 +22,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Penrose.Core\Penrose.Core.csproj" />
+      <ProjectReference Include="..\Penrose.Infrastructure\Penrose.Infrastructure.csproj" />
       <ProjectReference Include="..\Penrose.Persistence\Penrose.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contexts\Messages\Queries" />
+      <Folder Include="Contexts\Messages\Commands" />
       <Folder Include="Contexts\Users" />
     </ItemGroup>
 

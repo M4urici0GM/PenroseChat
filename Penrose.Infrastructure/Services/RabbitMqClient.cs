@@ -20,6 +20,7 @@ namespace Penrose.Infrastructure.Services
                 Password = mqConfiguration.Password,
                 VirtualHost = mqConfiguration.VirtualHost,
                 HostName = mqConfiguration.HostName,
+                DispatchConsumersAsync = true,
             };
         }
 
