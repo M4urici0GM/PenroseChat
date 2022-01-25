@@ -6,17 +6,17 @@ using Penrose.Core.Exceptions;
 
 namespace Penrose.Application.Extensions
 {
-    public static class AbstractValidatorExtensions
+  public static class AbstractValidatorExtensions
+  {
+    public static async Task ValidateRequest<T>(
+        this AbstractValidator<T> validator,
+        T request,
+        string entityName,
+        CancellationToken cancellationToken)
     {
-        public static async Task ValidateRequest<T>(
-            this AbstractValidator<T> validator,
-            T request,
-            string entityName, 
-            CancellationToken cancellationToken)
-        {
-            ValidationResult validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-                throw new EntityValidationException(entityName, request, validationResult.Errors);
-        }
+      ValidationResult validationResult = await validator.ValidateAsync(request, cancellationToken);
+      if (!validationResult.IsValid)
+        throw new EntityValidationException(entityName, request, validationResult.Errors);
     }
+  }
 }

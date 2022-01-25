@@ -10,56 +10,56 @@ using Penrose.Application.Interfaces;
 
 namespace Penrose.Application.Contexts.Messages.Queries
 {
-    public class FindChatMessagesRequest : PagedRequest, IRequest<PagedResult<ChatMessageDto>>
+  public class FindChatMessagesRequest : PagedRequest, IRequest<PagedResult<ChatMessageDto>>
+  {
+    public Guid ChatId { get; set; }
+    public PagedRequest PagedRequest { get; set; }
+
+    public class FindChatMessageRequestHandler : IRequestHandler<FindChatMessagesRequest, PagedResult<ChatMessageDto>>
     {
-        public Guid ChatId { get; set; }
-        public PagedRequest PagedRequest { get; set; }
+      private readonly IChatDataStrategy _chatDataStrategy;
+      private readonly ISecurityService _securityService;
+      private readonly IMediator _mediator;
 
-        public class FindChatMessageRequestHandler : IRequestHandler<FindChatMessagesRequest, PagedResult<ChatMessageDto>>
+      public FindChatMessageRequestHandler(
+          IChatDataStrategy chatDataStrategy,
+          ISecurityService securityService,
+          IMediator mediator)
+      {
+        _chatDataStrategy = chatDataStrategy;
+        _securityService = securityService;
+        _mediator = mediator;
+      }
+
+      public async Task<PagedResult<ChatMessageDto>> Handle(
+          FindChatMessagesRequest request,
+          CancellationToken cancellationToken)
+      {
+        Guid userId = _securityService.GetCurrentUserId();
+        Guid chatId = request.ChatId;
+
+        await CheckIfUserBelongsToChatAsync(new UserBelongsToChat(userId, chatId), cancellationToken);
+        int messageCount = await _chatDataStrategy.CountChatMessagesAsync(request.ChatId, cancellationToken);
+        IEnumerable<ChatMessageDto> pagedResult = await _chatDataStrategy.FindChatMessagesAsync(
+            request.ChatId,
+            request.PagedRequest,
+            cancellationToken);
+
+        return new PagedResult<ChatMessageDto>()
         {
-            private readonly IChatDataStrategy _chatDataStrategy;
-            private readonly ISecurityService _securityService;
-            private readonly IMediator _mediator;
-            
-            public FindChatMessageRequestHandler(
-                IChatDataStrategy chatDataStrategy,
-                ISecurityService securityService,
-                IMediator mediator)
-            {
-                _chatDataStrategy = chatDataStrategy;
-                _securityService = securityService;
-                _mediator = mediator;
-            }
+          Count = messageCount,
+          Offset = request.Offset,
+          PageSize = request.PageSize,
+          Records = pagedResult,
+        };
+      }
 
-            public async Task<PagedResult<ChatMessageDto>> Handle(
-                FindChatMessagesRequest request,
-                CancellationToken cancellationToken)
-            {
-                Guid userId = _securityService.GetCurrentUserId();
-                Guid chatId = request.ChatId;
-
-                await CheckIfUserBelongsToChatAsync(new UserBelongsToChat(userId, chatId), cancellationToken);
-                int messageCount = await _chatDataStrategy.CountChatMessagesAsync(request.ChatId, cancellationToken);
-                IEnumerable<ChatMessageDto> pagedResult = await _chatDataStrategy.FindChatMessagesAsync(
-                    request.ChatId,
-                    request.PagedRequest,
-                    cancellationToken);
-
-                return new PagedResult<ChatMessageDto>()
-                {
-                    Count = messageCount,
-                    Offset = request.Offset,
-                    PageSize = request.PageSize,
-                    Records = pagedResult,
-                };
-            }
-
-            private async Task CheckIfUserBelongsToChatAsync(UserBelongsToChat request, CancellationToken cancellationToken)
-            {
-                bool userBelongsToChat = await _mediator.Send(request, cancellationToken);
-                if (!userBelongsToChat)
-                    throw new UnauthorizedAccessException();
-            }
-        }
+      private async Task CheckIfUserBelongsToChatAsync(UserBelongsToChat request, CancellationToken cancellationToken)
+      {
+        bool userBelongsToChat = await _mediator.Send(request, cancellationToken);
+        if (!userBelongsToChat)
+          throw new UnauthorizedAccessException();
+      }
     }
+  }
 }

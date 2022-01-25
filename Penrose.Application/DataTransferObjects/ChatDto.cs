@@ -12,6 +12,6 @@ namespace Penrose.Application.DataTransferObjects
         public int UnreadMessages { get; set; }
         public IEnumerable<UserDto> Participants { get; set; }
         public ChatMessageDto LastMessage { get; set; }
-        public ChatProperties Properties { get; set; }
+        public ChatPropertiesDto Properties { get; set; }
     }
 }

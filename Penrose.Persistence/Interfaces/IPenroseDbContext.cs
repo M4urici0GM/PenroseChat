@@ -6,11 +6,11 @@ using Penrose.Core.Common;
 
 namespace Penrose.Core.Interfaces
 {
-    public interface IPenroseDbContext
-    {
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = new());
-        DbSet<T> GetDbSet<T>() where T : AuditableEntity;
-        EntityEntry GetEntityEntry<T>(T entity);
-        EntityEntry AttachEntity<T>(T entity);
-    }
+  public interface IPenroseDbContext
+  {
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = new());
+    DbSet<T> GetDbSet<T>() where T : AuditableEntity;
+    EntityEntry GetEntityEntry<T>(T entity);
+    EntityEntry AttachEntity<T>(T entity);
+  }
 }

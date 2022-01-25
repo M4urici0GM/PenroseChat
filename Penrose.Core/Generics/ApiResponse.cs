@@ -5,9 +5,10 @@ namespace Penrose.Core.Generics
 {
     public class ApiResponse<T> where T : class
     {
-        public string Message { get; set; }
-        public HttpStatusCode Status { get; set; }
-        public Guid RequestId { get; set; }
-        public T Data { get; set; }
+        public string Message { get; init; }
+        public string StackTrace { get; init; }
+        public HttpStatusCode Status { get; init; }
+        public Guid RequestId { get; init; }
+        public T Data { get; init; }
     }
 }

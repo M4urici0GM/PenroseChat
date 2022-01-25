@@ -14,7 +14,7 @@
       <PackageReference Include="AutoMapper" Version="10.1.1" />
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
       <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
-      <PackageReference Include="FluentValidation" Version="10.0.4" />
+      <PackageReference Include="FluentValidation" Version="10.3.6" />
       <PackageReference Include="MediatR" Version="9.0.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
       <PackageReference Include="ServiceStack.Redis" Version="5.11.0" />
@@ -24,6 +24,7 @@
       <ProjectReference Include="..\Penrose.Core\Penrose.Core.csproj" />
       <ProjectReference Include="..\Penrose.Infrastructure\Penrose.Infrastructure.csproj" />
       <ProjectReference Include="..\Penrose.Persistence\Penrose.Persistence.csproj" />
+      <ProjectReference Include="..\Penrose.Extensions\Penrose.Extensions.csproj" />
     </ItemGroup>
 
     <ItemGroup>

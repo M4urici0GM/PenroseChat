@@ -9,21 +9,21 @@ using Penrose.Application.Interfaces;
 
 namespace Penrose.Microservices.User.Controllers
 {
-    [ApiController, Route("api/[controller]")]
-    public class AuthenticateController : BasePenroseController
-    {
-        private readonly IMediator _mediator;
-        
-        public AuthenticateController(IMediator mediator, ISecurityService securityService) : base(securityService)
-        {
-            _mediator = mediator;
-        }
+  [ApiController, Route("api/[controller]")]
+  public class AuthenticateController : BasePenroseController
+  {
+    private readonly IMediator _mediator;
 
-        [HttpPost, AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
-        {
-            AuthenticatedUserDto userDto = await _mediator.Send(request);
-            return Created(userDto);
-        }
+    public AuthenticateController(IMediator mediator, ISecurityService securityService) : base(securityService)
+    {
+      _mediator = mediator;
     }
+
+    [HttpPost("token"), AllowAnonymous]
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
+    {
+      AuthenticatedUserDto userDto = await _mediator.Send(request);
+      return Created(userDto);
+    }
+  }
 }

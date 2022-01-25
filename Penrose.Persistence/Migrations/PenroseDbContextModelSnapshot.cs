@@ -364,13 +364,11 @@ namespace Penrose.Persistence.Migrations
 
             modelBuilder.Entity("Penrose.Core.Entities.ChatProperties", b =>
                 {
-                    b.HasOne("Penrose.Core.Entities.Chat", "Chat")
+                    b.HasOne("Penrose.Core.Entities.Chat", null)
                         .WithOne("Properties")
                         .HasForeignKey("Penrose.Core.Entities.ChatProperties", "ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Chat");
                 });
 
             modelBuilder.Entity("Penrose.Core.Entities.UserProperties", b =>

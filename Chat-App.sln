@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penrose.Infrastructure", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penrose.Microservices.Mailing", "Penrose.Microservices.Mailing\Penrose.Microservices.Mailing.csproj", "{60A3898C-0BD0-4D91-9D08-5D4EBD93DF55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penrose.Extensions", "Penrose.Extensions\Penrose.Extensions.csproj", "{4CA8E314-8D3A-44CC-8C79-2FCBE9369AD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{60A3898C-0BD0-4D91-9D08-5D4EBD93DF55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60A3898C-0BD0-4D91-9D08-5D4EBD93DF55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60A3898C-0BD0-4D91-9D08-5D4EBD93DF55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CA8E314-8D3A-44CC-8C79-2FCBE9369AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CA8E314-8D3A-44CC-8C79-2FCBE9369AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CA8E314-8D3A-44CC-8C79-2FCBE9369AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CA8E314-8D3A-44CC-8C79-2FCBE9369AD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

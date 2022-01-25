@@ -18,7 +18,7 @@ namespace Penrose.Persistence.Configurations
                 .HasForeignKey(x => x.ChatId);
 
             builder.HasOne(x => x.Properties)
-                .WithOne(x => x.Chat)
+                .WithOne()
                 .HasForeignKey<ChatProperties>(x => x.ChatId);
         }
     }

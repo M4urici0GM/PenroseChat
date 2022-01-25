@@ -8,33 +8,38 @@ using Penrose.Core.Generics;
 
 namespace Penrose.Microservices.User.Extensions
 {
-    public static class HttpContextExtensions
+  public static class HttpContextExtensions
+  {
+    public static Task WriteCustomResponse(
+        this HttpContext context,
+        HttpStatusCode statusCode,
+        Guid requestId,
+        Exception exception,
+        IHostEnvironment hostEnvironment,
+        object response = null)
     {
-        public static Task WriteCustomResponse(
-            this HttpContext context,
-            HttpStatusCode statusCode,
-            Guid requestId,
-            Exception exception,
-            IHostEnvironment hostEnvironment,
-            object response = null)
-        {
-            string message = (statusCode == HttpStatusCode.InternalServerError && !hostEnvironment.IsDevelopment())
-                ? "Internal Server Error."
-                : exception.Message;
+      string stackTrace = !hostEnvironment.IsDevelopment()
+        ? null
+        : exception?.StackTrace;
 
-            ApiResponse<object> apiResponse = new ApiResponse<object>
-            {
-                Message = message,
-                Status = statusCode,
-                RequestId = requestId,
-                Data = response
-            };
+      string message = (statusCode == HttpStatusCode.InternalServerError && !hostEnvironment.IsDevelopment())
+          ? "Internal Server Error."
+          : exception?.Message;
 
-            string responseContent = apiResponse.ToJson();
+      ApiResponse<object> apiResponse = new ApiResponse<object>
+      {
+        Message = message,
+        Status = statusCode,
+        StackTrace = stackTrace, 
+        RequestId = requestId,
+        Data = response
+      };
 
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int) statusCode;
-            return context.Response.WriteAsync(responseContent);
-        }
+      string responseContent = apiResponse.ToJson();
+
+      context.Response.ContentType = "application/json";
+      context.Response.StatusCode = (int)statusCode;
+      return context.Response.WriteAsync(responseContent);
     }
+  }
 }
